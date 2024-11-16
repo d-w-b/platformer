@@ -7,10 +7,10 @@
 Player::Player(Flipbook* fb, Vec2Int pos): Super(fb)
 {
 	/*
-		ÇÃ·¹ÀÌ¾î »ı¼º,
+		í”Œë ˆì´ì–´ ìƒì„±,
 		Size : 48X48 
-		°¢ »óÅÂ º° ¾Ö´Ï¸ŞÀÌ¼ÇÀ» °¡Á®¿À°í,
-		Ãæµ¹Ã¼¸¦ Ãß°¡ÇÕ´Ï´Ù.
+		ê° ìƒíƒœ ë³„ ì• ë‹ˆë©”ì´ì…˜ì„ ê°€ì ¸ì˜¤ê³ ,
+		ì¶©ëŒì²´ë¥¼ ì¶”ê°€í•©ë‹ˆë‹¤.
 	*/
 
 	SetSize(Vec2Int{ 48,48 });
@@ -75,7 +75,7 @@ void Player::RenderIndicator(Graphics* g)
 	Vec2Int pos = GetPos();
 	Vec2Int size = GetSize();
 
-	// Ä«¸Ş¶ó¸¦ ±âÁØÁ¡À¸·Î ÇÑ »ó´ë À§Ä¡·Î Á¶Á¤
+	// ì¹´ë©”ë¼ë¥¼ ê¸°ì¤€ì ìœ¼ë¡œ í•œ ìƒëŒ€ ìœ„ì¹˜ë¡œ ì¡°ì •
 	Locator::GetCamera()->AdjustActorPosition(&pos);
 	// offset
 	
@@ -84,7 +84,7 @@ void Player::RenderIndicator(Graphics* g)
 
 	SolidBrush brush(Color(255, 255, 255, 255));				   // (Alpha, Red, Green, Blue)
 	Pen skyBluePen(Color(255, 33, 255, 33));
-	Rect rectangle(pos.x - offset, pos.y - size.y - offset, r, r); // (¿ŞÂÊ, À§, ³Êºñ, ³ôÀÌ)
+	Rect rectangle(pos.x - offset, pos.y - size.y - offset, r, r); // (ì™¼ìª½, ìœ„, ë„ˆë¹„, ë†’ì´)
 
 	g->FillEllipse(&brush, rectangle);
 	g->DrawEllipse(&skyBluePen, rectangle);
@@ -124,7 +124,7 @@ void Player::OnBeginCollision(Collider* src, Collider* dest)
 	}
 }
 
-// Ãæµ¹ Áß¿¡ À§Ä¡ Á¶Á¤
+// ì¶©ëŒ ì¤‘ì— ìœ„ì¹˜ ì¡°ì •
 void Player::OnColliding(Collider* src, Collider* dest)
 {
 	
@@ -148,7 +148,7 @@ PlayerState Player::CheckOverlap(RECT& other, RECT& intersect)
 	int32 w = intersect.right - intersect.left;
 	int32 h = intersect.bottom - intersect.top;
 
-
+	// ê°€ë¡œ(w) ê°€ ì„¸ë¡œ(h) ë³´ë‹¤ ê¸¸ë‹¤ë©´ ìœ„ í˜¹ì€ ì•„ë˜ì—ì„œ ì¶©ëŒí•œ ê²ƒìœ¼ë¡œ ê°„ì£¼í•©ë‹ˆë‹¤.
 	if (w > h)
 	{
 		if (other.top == intersect.top)
@@ -160,6 +160,7 @@ PlayerState Player::CheckOverlap(RECT& other, RECT& intersect)
 			return PlayerState::UnderGround;
 		}
 	}
+	// ê°€ë¡œ(w) ê°€ ì„¸ë¡œ(h) ë³´ë‹¤ ì§§ë‹¤ë©´ ì¢Œ í˜¹ì€ ìš°ì—ì„œ ì¶©ëŒí•œ ê²ƒìœ¼ë¡œ ê°„ì£¼í•©ë‹ˆë‹¤.
 	else
 	{
 		if (other.left == intersect.left)
@@ -426,7 +427,7 @@ void Player::StopY()
 }
 void Player::Run(int32 dir)
 {
-	// Ä³¸¯ÅÍÀÇ ¹æÇâ°ú ÁøÇàÁßÀÎ ¹æÇâÀÌ ´Ù¸£¸é ¸ØÃä´Ï´Ù.
+	// ìºë¦­í„°ì˜ ë°©í–¥ê³¼ ì§„í–‰ì¤‘ì¸ ë°©í–¥ì´ ë‹¤ë¥´ë©´ ë©ˆì¶¥ë‹ˆë‹¤.
 	if (_v.x * dir < 0)
 	{
 		StopX();
@@ -463,7 +464,7 @@ void Player::TickState()
 		timer = GetHitTimer();
 		if (timer < 1)
 			Hit();
-		/* 1.3ÃÊ°£ Hit »óÅÂ À¯Áö */
+		/* 1.3ì´ˆê°„ Hit ìƒíƒœ ìœ ì§€ */
 		if (timer > 1300)
 		{
 			SetHitTimer(0);
@@ -498,9 +499,9 @@ void Player::TickState()
 }
 
 /* 
-	PlayerÀÇ Ãæµ¹Ã¼¸¦ ±âÁØÀ¸·Î ´ÙÀ½ ½ºÅÜÀ» ÁøÇàÇÏ°í º®¿¡ ºÎµúÈ÷´ÂÁö È®ÀÎÇÕ´Ï´Ù. 
-	º®¿¡ ºÎµúÈù´Ù¸é ´ÙÀ½ ½ºÅÜÀ» ÁøÇàÇÏÁö ¾Ê½À´Ï´Ù.
-	XÃà°ú YÃàÀ» ³ª´©¾î¼­ °í·ÁÇÕ´Ï´Ù.
+	Playerì˜ ì¶©ëŒì²´ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ë‹¤ìŒ ìŠ¤í…ì„ ì§„í–‰í•˜ê³  ë²½ì— ë¶€ë”ªíˆëŠ”ì§€ í™•ì¸í•©ë‹ˆë‹¤. 
+	ë²½ì— ë¶€ë”ªíŒë‹¤ë©´ ë‹¤ìŒ ìŠ¤í…ì„ ì§„í–‰í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
+	Xì¶•ê³¼ Yì¶•ì„ ë‚˜ëˆ„ì–´ì„œ ê³ ë ¤í•©ë‹ˆë‹¤.
 */
 void Player::TickStep()
 {
@@ -516,19 +517,19 @@ void Player::TickStep()
 	int32 nextX = _v.x > 0 ? pos.x + sizeX / 2 + _v.x  : pos.x - sizeX / 2 + _v.x ;
 	int32 nextY = _v.y > 0 ? pos.y + _v.y : pos.y - sizeY + _v.y;
 
-	/* ÇöÀç À§Ä¡ÇÑ ¼¿ ÁÂÇ¥ */
+	/* í˜„ì¬ ìœ„ì¹˜í•œ ì…€ ì¢Œí‘œ */
 	int32 currentCellX = _dir > 0 ? (pos.x + sizeX / 2) / tileSize.x : (pos.x - sizeX/2) / tileSize.x;
 	int32 currentCellXForCheckFalling = pos.x / tileSize.x;
 	int32 currentCellY = _v.y > 0 ?  pos.y / tileSize.y : (pos.y - sizeY) / tileSize.y;
 
-	/* ´ÙÀ½ ½ºÅÜÀÇ ¼¿ ÁÂÇ¥ */
+	/* ë‹¤ìŒ ìŠ¤í…ì˜ ì…€ ì¢Œí‘œ */
 	int32 nextCellX = nextX / tileSize.x;
 	int32 nextCellY = nextY / tileSize.y;
 
 	bool canGoX = CanGo(nextCellX, currentCellY, tiles);
 	bool canGoY = CanGo(currentCellXForCheckFalling , nextCellY, tiles);
 
-	/* ´ÙÀ½ ½ºÅÜÀÇ XÃà ¼¿ ÀÌµ¿ °¡´É ? */
+	/* ë‹¤ìŒ ìŠ¤í…ì˜ Xì¶• ì…€ ì´ë™ ê°€ëŠ¥ ? */
 	if ( canGoX )
 	{
 		pos.x += _v.x;
@@ -538,7 +539,7 @@ void Player::TickStep()
 		StopX();
 	}
 
-	/* ´ÙÀ½ ½ºÅÜÀÇ YÃà ¼¿ ÀÌµ¿ °¡´É ? */
+	/* ë‹¤ìŒ ìŠ¤í…ì˜ Yì¶• ì…€ ì´ë™ ê°€ëŠ¥ ? */
 	if ( canGoY )
 	{
 		pos.y += _v.y;
